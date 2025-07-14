@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisper Flow - Real-Time Transcription</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <span class="title-icon">🎤</span>
+                Whisper Flow
+            </h1>
+            <p class="subtitle">Real-Time Speech-to-Text Transcription</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Connection Status -->
+            <div class="status-bar">
+                <div class="connection-status" id="connectionStatus">
+                    <div class="status-info">
+                        <span class="status-indicator" id="statusIndicator"></span>
+                        <span class="status-text" id="statusText">Connecting...</span>
+                    </div>
+                    <button class="btn btn-small" id="configToggleButton">
+                        <span class="btn-icon">⚙️</span>
+                        <span class="btn-text">Settings</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Server Configuration -->
+            <div class="config-section" id="configSection" style="display: none;">
+                <h2 class="section-title">Server Configuration</h2>
+                <div class="config-container">
+                    <div class="config-form">
+                        <div class="config-row">
+                            <label for="hostnameInput">Hostname:</label>
+                            <input type="text" id="hostnameInput" placeholder="localhost" class="config-input">
+                        </div>
+                        <div class="config-row">
+                            <label for="portInput">Port:</label>
+                            <input type="number" id="portInput" placeholder="8181" min="1" max="65535" class="config-input">
+                        </div>
+                        <div class="config-row">
+                            <label>Source:</label>
+                            <span id="configSource" class="config-source">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="config-controls">
+                        <button class="btn btn-secondary" id="applyConfigButton">
+                            <span class="btn-icon">⚙️</span>
+                            <span class="btn-text">Apply & Connect</span>
+                        </button>
+                        <button class="btn btn-secondary" id="resetConfigButton">
+                            <span class="btn-icon">🔄</span>
+                            <span class="btn-text">Reset to Default</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recording Controls -->
+            <div class="controls-section">
+                <div class="recording-controls">
+                    <button class="btn btn-primary" id="recordButton">
+                        <span class="btn-icon">🎙️</span>
+                        <span class="btn-text">Start Recording</span>
+                    </button>
+                    <button class="btn btn-secondary" id="stopButton" disabled>
+                        <span class="btn-icon">⏹️</span>
+                        <span class="btn-text">Stop Recording</span>
+                    </button>
+                </div>
+                
+                <!-- Audio Level Indicator -->
+                <div class="audio-level-container">
+                    <div class="audio-level-bar">
+                        <div class="audio-level-fill" id="audioLevel"></div>
+                    </div>
+                    <span class="audio-level-text" id="audioLevelText">Audio Level</span>
+                </div>
+            </div>
+
+            <!-- Transcription Display -->
+            <div class="transcription-section">
+                <h2 class="section-title">Live Transcription</h2>
+                <div class="transcription-container">
+                    <div class="transcription-text" id="transcriptionText">
+                        <p class="placeholder-text">Start recording to see live transcription...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="upload-section">
+                <h2 class="section-title">Upload Audio File</h2>
+                <div class="upload-container">
+                    <div class="file-drop-zone" id="fileDropZone">
+                        <div class="drop-zone-content">
+                            <span class="drop-zone-icon">📁</span>
+                            <p class="drop-zone-text">Drag & drop audio file here or click to browse</p>
+                            <input type="file" id="fileInput" accept="audio/*" class="file-input">
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="uploadButton" disabled>
+                        <span class="btn-icon">📤</span>
+                        <span class="btn-text">Transcribe File</span>
+                    </button>
+                </div>
+                <div class="upload-result" id="uploadResult"></div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by OpenAI Whisper • Real-time streaming transcription</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/config.js"></script>
+    <script src="scripts/audio.js"></script>
+    <script src="scripts/websocket.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html> 
