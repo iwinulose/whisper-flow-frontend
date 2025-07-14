@@ -1,15 +1,15 @@
 # Whisper Flow Frontend
 
-A bare bones, responsive web frontend for the Whisper Flow real-time speech-to-text transcription service.
+A simple web frontend for the Whisper Flow real-time speech-to-text transcription service.
 
 ## Features
 
 - **Real-time microphone transcription**: Live speech-to-text using WebSocket streaming
 - **Audio file upload**: Batch transcription of uploaded audio files
-- **Modern UI**: Clean, responsive design with smooth animations
+- **Configurable server connection**: Set hostname and port via UI, URL parameters, or code
 - **Connection management**: Automatic reconnection and status indicators
 - **Audio visualization**: Real-time audio level monitoring
-- **Drag & drop**: Easy file upload with drag and drop support
+- **Drag & drop**: File upload with drag and drop support
 
 ## Prerequisites
 
@@ -32,13 +32,12 @@ The server should be running on `http://localhost:8181`
 
 ### 2. Open the Frontend
 
-Simply open `frontend/index.html` in your web browser. You can:
+Simply open `index.html` in your web browser. You can:
 
 - Double-click the file to open it directly
 - Use a local web server (recommended):
   ```bash
   # Using Python 3
-  cd frontend
   python3 -m http.server 8080
   # Then open http://localhost:8080 in your browser
   ```
@@ -48,6 +47,16 @@ Simply open `frontend/index.html` in your web browser. You can:
 When you first open the frontend, your browser will ask for microphone permission. Click "Allow" to enable real-time transcription.
 
 ## Usage
+
+### Server Configuration
+
+The frontend automatically connects to `localhost:8181` by default. You can change the server settings in several ways:
+
+1. **URL Parameters**: Add `?host=192.168.1.100&port=9000` to the URL
+2. **UI Settings**: Click the "Settings" button in the status bar to configure hostname and port
+3. **Code Constants**: Edit the `DEFAULT_SERVER_CONFIG` in `scripts/config.js`
+
+The configuration panel automatically appears if the initial connection fails.
 
 ### Real-time Recording
 
@@ -72,8 +81,9 @@ Supported audio formats: MP3, WAV, M4A, OGG, and other browser-supported formats
 
 ### Architecture
 
-The frontend is built with vanilla JavaScript and consists of four main modules:
+The frontend is built with vanilla JavaScript and consists of five main modules:
 
+- **`config.js`**: Manages server configuration and connection settings
 - **`audio.js`**: Handles microphone access and audio processing
 - **`websocket.js`**: Manages WebSocket communication with the server
 - **`ui.js`**: Controls DOM updates and user interactions
@@ -88,7 +98,7 @@ The frontend is built with vanilla JavaScript and consists of four main modules:
 
 ### WebSocket Communication
 
-- **Endpoint**: `ws://localhost:8181/ws`
+- **Endpoint**: Configurable via `ws://{hostname}:{port}/ws`
 - **Protocol**: Binary audio chunks
 - **Response**: JSON transcription data
 - **Reconnection**: Automatic with exponential backoff
@@ -97,9 +107,11 @@ The frontend is built with vanilla JavaScript and consists of four main modules:
 
 ### Connection Issues
 
-- Ensure the Whisper Flow server is running on port 8181
+- Ensure the Whisper Flow server is running on the configured hostname and port
 - Check browser console for error messages
-- Verify firewall settings allow local connections
+- Verify firewall settings allow connections to the server
+- Use the Settings button to configure the correct server address
+- Try URL parameters like `?host=192.168.1.100&port=9000` for quick testing
 
 ### Microphone Issues
 
@@ -118,11 +130,11 @@ The frontend is built with vanilla JavaScript and consists of four main modules:
 ### File Structure
 
 ```
-frontend/
 ├── index.html          # Main HTML page
 ├── styles/
 │   └── main.css       # Styling
 ├── scripts/
+│   ├── config.js      # Configuration management
 │   ├── app.js         # Main application logic
 │   ├── audio.js       # Audio processing utilities
 │   ├── websocket.js   # WebSocket communication
@@ -132,7 +144,7 @@ frontend/
 
 ### Customization
 
-- **Server URL**: Modify the WebSocket URL in `websocket.js` if your server runs on a different port
+- **Server Configuration**: Edit `DEFAULT_SERVER_CONFIG` in `scripts/config.js` to change default hostname and port
 - **Styling**: Edit `styles/main.css` to customize the appearance
 - **Audio Settings**: Adjust sample rate and chunk size in `audio.js` if needed
 
